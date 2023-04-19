@@ -1,42 +1,47 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+body {
+  background: linear-gradient( gray, white);
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+.calculator-container{
+margin: auto;
+margin-top: 20vh;
+margin-bottom: 50vh;
+height: 30vh;
+background: linear-gradient(black, rgb(30 31 30));
+border-radius: 5px;
+padding: 5px;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.calculator-row{
+  display: flex;
+  height: 5vh;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+p{
+  background-color: white;
+  border: 0;
+  border-radius: 3px;
+  width: 200px;
+  height: 25px;
+  margin: auto;
+  margin-bottom: 5px;
+  margin-top: 2px;
 }
 
-.card {
-  padding: 2em;
+button{
+  border: 1px solid;
+  border-radius: 10px;
+  width: 50px;
+  height: 4.5vh;
+  background-color: rgb(30 31 30);
+  color: white;
 }
 
-.read-the-docs {
-  color: #888;
+.equal-button-container button{
+  height: 9.5vh;
+  background-color: orange;
+}
+
+.comma-button-container button{
+  width: 100px;
 }

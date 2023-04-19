@@ -1,34 +1,41 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import React from 'react'
 import './App.css'
 
-function App() {
-  const [count, setCount] = useState(0)
-
+function App () {
   return (
-    <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </div>
+      <table className='calculator-container'>
+        <tr>
+          <th><p></p></th>
+        </tr>
+        <tr className='calculator-row'>
+          <td><button>C</button></td>
+          <td><button>{'<'}</button></td>
+          <td><button>/</button></td>
+          <td><button>*</button></td>
+        </tr>
+        <tr className='calculator-row'>
+          <td><button>7</button></td>
+          <td><button>8</button></td>
+          <td><button>9</button></td>
+          <td><button>-</button></td>
+        </tr>
+        <tr className='calculator-row'>
+          <td><button>4</button></td>
+          <td><button>5</button></td>
+          <td><button>6</button></td>
+          <td><button>+</button></td>
+        </tr>
+        <tr className='calculator-row'>
+          <td><button>1</button></td>
+          <td><button>2</button></td>
+          <td><button>3</button></td>
+          <td className='equal-button-container'><button>=</button></td>
+        </tr>
+        <tr className='calculator-row'>
+          <td><button>0</button></td>
+          <td className='comma-button-container'><button>.</button></td>
+        </tr>
+      </table>
   )
 }
 
