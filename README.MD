@@ -10,4 +10,4 @@ Este projeto consta com uma calculadora capaz de executar somas, subtrações, m
 
 # Acesso
 
-[Calculator-App](https://vinny-knzts.github.io/calculator-app/)
+[Calculator-App](https://vinny-knzts.github.io/Calculator-App/)
