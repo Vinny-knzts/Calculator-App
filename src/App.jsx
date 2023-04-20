@@ -13,7 +13,7 @@ function App () {
     else setResult(result.slice(0, -1))
   }
 
-  function add (character) {
+  function addNumber (character) {
     const currentNumber = result.split(/[*+/-]+/).slice(-1)[0]
     if (currentNumber === '0') {
       setResult(result.slice(0, -1) + character)
@@ -29,26 +29,49 @@ function App () {
     }
   }
 
+  function addOperators (operator) {
+    const currentCharacter = result.slice(-1)
+    if (currentCharacter === '*' && operator === '-') {
+      setResult(result + operator)
+    } else if (['+', '-', '*', '/'].includes(currentCharacter)) {
+      if (result.length === 1) return
+      setResult(result.slice(0, -1) + operator)
+    } else setResult(result + operator)
+  }
+
   function format () {
-    const numbers = result.split(/[*+/-]+/)
-    const operators = result.split(/[1234567890.]+/).filter(o => o)
+    const numbers = result.split(/[*+/-]+/).filter(n => n)
+    const operators = result.split(/[1234567890.]+/).filter(n => n)
     const format = []
-    numbers.forEach((number, i) => {
-      format.push(number)
-      if (i < operators.length) format.push(operators[i])
-    })
+    if (result[0] === '-') {
+      format.push(numbers[0] * -1)
+      for (let i = 1; i < numbers.length; i += 1) {
+        format.push(operators[i])
+        format.push(numbers[i])
+      }
+    } else {
+      for (let i = 0; i < numbers.length; i += 1) {
+        format.push(numbers[i])
+        format.push(operators[i])
+      }
+    }
+    if (['*', '/', '*-', '-', '+'].includes(format.slice(-1))) console.log('oi')
     return format
   }
 
   function calculateDivAndMulti () {
     const DivMultiFunctions = {
       '*': (a, b) => a * b,
-      '/': (a, b) => a / b
+      '/': (a, b) => a / b,
+      '*-': (a, b) => a * -b
     }
+    const operators = ['*', '/', '*-']
     let formatArray = format()
     for (let i = 0; i < formatArray.length;) {
-      if (formatArray[i] === '*' || formatArray[i] === '/') {
-        formatArray[i] = DivMultiFunctions[formatArray[i]](formatArray[i - 1], formatArray[i + 1])
+      if (operators.includes(formatArray[i])) {
+        const firstNumber = Number(formatArray[i - 1])
+        const secondNumner = Number(formatArray[i + 1])
+        formatArray[i] = String(DivMultiFunctions[formatArray[i]](firstNumber, secondNumner))
         formatArray[i - 1] = null
         formatArray[i + 1] = null
         formatArray = formatArray.filter(n => n)
@@ -59,14 +82,18 @@ function App () {
   }
 
   function calculateSumSub () {
+    if (['+', '-', '*', '-*', '/'].includes(result.slice(-1))) return alert('Invalid Format')
     const SumSubFunctions = {
       '+': (a, b) => a + b,
       '-': (a, b) => a - b
     }
+    const operators = ['-', '+']
     let formatArray = calculateDivAndMulti()
     for (let i = 0; i < formatArray.length;) {
-      if (formatArray[i] === '+' || formatArray[i] === '-') {
-        formatArray[i] = SumSubFunctions[formatArray[i]](Number(formatArray[i - 1]), Number(formatArray[i + 1]))
+      if (operators.includes(formatArray[i])) {
+        const firstNumber = Number(formatArray[i - 1])
+        const secondNumner = Number(formatArray[i + 1])
+        formatArray[i] = String(SumSubFunctions[formatArray[i]](firstNumber, secondNumner))
         formatArray[i - 1] = null
         formatArray[i + 1] = null
         formatArray = formatArray.filter(n => n)
@@ -84,29 +111,32 @@ function App () {
         <tr className='calculator-row'>
           <td><button onClick={ clearAll }>C</button></td>
           <td><button onClick={ clear }>{'<'}</button></td>
-          <td><button onClick={ () => add('/') }>/</button></td>
-          <td><button onClick={ () => add('*') }>*</button></td>
+          <td><button onClick={ () => addOperators('/') }>/</button></td>
+          <td><button onClick={ () => addOperators('*') }>*</button></td>
         </tr>
         <tr className='calculator-row'>
-          <td><button onClick={ () => add(7) } >7</button></td>
-          <td><button onClick={ () => add(8) }>8</button></td>
-          <td><button onClick={ () => add(9) }>9</button></td>
-          <td><button onClick={ () => add('-') }>-</button></td>
+          <td><button onClick={ () => addNumber(7) } >7</button></td>
+          <td><button onClick={ () => addNumber(8) }>8</button></td>
+          <td><button onClick={ () => addNumber(9) }>9</button></td>
+          <td><button onClick={ () => {
+            if (result === '0') addNumber('-')
+            else addOperators('-')
+          } }>-</button></td>
         </tr>
         <tr className='calculator-row'>
-          <td><button onClick={ () => add(4) }>4</button></td>
-          <td><button onClick={ () => add(5) }>5</button></td>
-          <td><button onClick={ () => add(6) }>6</button></td>
-          <td><button onClick={ () => add('+') }>+</button></td>
+          <td><button onClick={ () => addNumber(4) }>4</button></td>
+          <td><button onClick={ () => addNumber(5) }>5</button></td>
+          <td><button onClick={ () => addNumber(6) }>6</button></td>
+          <td><button onClick={ () => addOperators('+') }>+</button></td>
         </tr>
         <tr className='calculator-row'>
-          <td><button onClick={ () => add(1) }>1</button></td>
-          <td><button onClick={ () => add(2) }>2</button></td>
-          <td><button onClick={ () => add(3) }>3</button></td>
+          <td><button onClick={ () => addNumber(1) }>1</button></td>
+          <td><button onClick={ () => addNumber(2) }>2</button></td>
+          <td><button onClick={ () => addNumber(3) }>3</button></td>
           <td className='equal-button-container' onClick={ calculateSumSub } ><button>=</button></td>
         </tr>
         <tr className='calculator-row'>
-          <td><button onClick={ () => add(0) }>0</button></td>
+          <td><button onClick={ () => addNumber(0) }>0</button></td>
           <td className='comma-button-container' onClick={ addComma }><button>.</button></td>
         </tr>
       </table>
