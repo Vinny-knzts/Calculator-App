@@ -14,11 +14,19 @@ function App () {
   }
 
   function add (character) {
-    if (character === 0 & result[0] === '0') return
-    if (result[0] === '0' & typeof (character) === 'number' & result.length === 1) {
-      const newResult = result.substring(1)
-      setResult(newResult + character)
+    const currentNumber = result.split(/[*+/-]+/).slice(-1)[0]
+    if (currentNumber === '0') {
+      setResult(result.slice(0, -1) + character)
     } else setResult(result + character)
+  }
+
+  function addComma () {
+    const currentNumber = result.split(/[*+/-]+/).slice(-1)[0]
+    if (!currentNumber.includes('.')) {
+      if (currentNumber === '') {
+        setResult(result + '0.')
+      } else setResult(result + '.')
+    }
   }
 
   return (
@@ -52,7 +60,7 @@ function App () {
         </tr>
         <tr className='calculator-row'>
           <td><button onClick={ () => add(0) }>0</button></td>
-          <td className='comma-button-container' onClick={ () => add('.') }><button>.</button></td>
+          <td className='comma-button-container' onClick={ addComma }><button>.</button></td>
         </tr>
       </table>
   )
