@@ -38,6 +38,13 @@ button{
   height: 4.5vh;
   background-color: rgb(30 31 30);
   color: white;
+  opacity: 0.7;
+  transition-duration: 1s;
+}
+
+button:active{
+  opacity: 1;
+  transition-duration: 0s;
 }
 
 .equal-button-container button{

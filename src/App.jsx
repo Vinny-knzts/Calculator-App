@@ -42,7 +42,7 @@ function App () {
   function format () {
     const numbers = result.split(/[*+/-]+/).filter(n => n)
     const operators = result.split(/[1234567890.]+/).filter(n => n)
-    const format = []
+    let format = []
     if (result[0] === '-') {
       format.push(numbers[0] * -1)
       for (let i = 1; i < numbers.length; i += 1) {
@@ -54,8 +54,8 @@ function App () {
         format.push(numbers[i])
         format.push(operators[i])
       }
+      format = format.slice(0, -1)
     }
-    if (['*', '/', '*-', '-', '+'].includes(format.slice(-1))) console.log('oi')
     return format
   }
 
@@ -70,8 +70,9 @@ function App () {
     for (let i = 0; i < formatArray.length;) {
       if (operators.includes(formatArray[i])) {
         const firstNumber = Number(formatArray[i - 1])
-        const secondNumner = Number(formatArray[i + 1])
-        formatArray[i] = String(DivMultiFunctions[formatArray[i]](firstNumber, secondNumner))
+        const secondNumber = Number(formatArray[i + 1])
+        if (formatArray[i] === '/' & secondNumber === 0) return alert('No divisions by zero')
+        formatArray[i] = String(DivMultiFunctions[formatArray[i]](firstNumber, secondNumber))
         formatArray[i - 1] = null
         formatArray[i + 1] = null
         formatArray = formatArray.filter(n => n)
@@ -89,6 +90,7 @@ function App () {
     }
     const operators = ['-', '+']
     let formatArray = calculateDivAndMulti()
+    if (formatArray === undefined) return
     for (let i = 0; i < formatArray.length;) {
       if (operators.includes(formatArray[i])) {
         const firstNumber = Number(formatArray[i - 1])
