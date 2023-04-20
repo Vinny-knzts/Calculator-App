@@ -29,6 +29,53 @@ function App () {
     }
   }
 
+  function format () {
+    const numbers = result.split(/[*+/-]+/)
+    const operators = result.split(/[1234567890.]+/).filter(o => o)
+    const format = []
+    numbers.forEach((number, i) => {
+      format.push(number)
+      if (i < operators.length) format.push(operators[i])
+    })
+    return format
+  }
+
+  function calculateDivAndMulti () {
+    const DivMultiFunctions = {
+      '*': (a, b) => a * b,
+      '/': (a, b) => a / b
+    }
+    let formatArray = format()
+    for (let i = 0; i < formatArray.length;) {
+      if (formatArray[i] === '*' || formatArray[i] === '/') {
+        formatArray[i] = DivMultiFunctions[formatArray[i]](formatArray[i - 1], formatArray[i + 1])
+        formatArray[i - 1] = null
+        formatArray[i + 1] = null
+        formatArray = formatArray.filter(n => n)
+        i = 0
+      } else i += 1
+    }
+    return formatArray
+  }
+
+  function calculateSumSub () {
+    const SumSubFunctions = {
+      '+': (a, b) => a + b,
+      '-': (a, b) => a - b
+    }
+    let formatArray = calculateDivAndMulti()
+    for (let i = 0; i < formatArray.length;) {
+      if (formatArray[i] === '+' || formatArray[i] === '-') {
+        formatArray[i] = SumSubFunctions[formatArray[i]](Number(formatArray[i - 1]), Number(formatArray[i + 1]))
+        formatArray[i - 1] = null
+        formatArray[i + 1] = null
+        formatArray = formatArray.filter(n => n)
+        i = 0
+      } else i += 1
+    }
+    setResult(String(formatArray))
+  }
+
   return (
       <table className='calculator-container'>
         <tr>
@@ -56,7 +103,7 @@ function App () {
           <td><button onClick={ () => add(1) }>1</button></td>
           <td><button onClick={ () => add(2) }>2</button></td>
           <td><button onClick={ () => add(3) }>3</button></td>
-          <td className='equal-button-container' ><button>=</button></td>
+          <td className='equal-button-container' onClick={ calculateSumSub } ><button>=</button></td>
         </tr>
         <tr className='calculator-row'>
           <td><button onClick={ () => add(0) }>0</button></td>
